@@ -260,41 +260,44 @@
   function refreshIcons() { if (window.lucide) window.lucide.createIcons(); }
   refreshIcons();
 
-  /* ---------- Scroll effects — robust, never leaves content hidden ----- */
+  /* ---------- Scroll effects ------------------------------------------
+     Reveals + per-section cascade run on IntersectionObserver + CSS, which is
+     reliable on every device. GSAP is used only for optional parallax. */
   const reveals = $$('.reveal');
-  const gridSel = ['#carGrid', '#promoGrid', '#blogGrid', '#knowGrid', '#ecoGrid', '#serviceList'];
-  const gridKids = () => gridSel.flatMap((s) => { const g = $(s); return g ? Array.from(g.children) : []; });
-  const forceShow = (els) => els.forEach((el) => {
-    if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
-      if (window.gsap) gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: 0.4 });
-      else { el.style.opacity = '1'; el.style.transform = 'none'; }
-    }
-  });
+  const grids = ['#carGrid', '#promoGrid', '#blogGrid', '#knowGrid', '#ecoGrid', '#serviceList']
+    .map((s) => $(s)).filter(Boolean);
+  grids.forEach((g) => g.setAttribute('data-cascade', ''));
+  const animated = [...reveals, ...grids];
 
+  const reveal = (el) => {
+    if (el.classList.contains('is-in')) return;
+    if (el.hasAttribute('data-cascade')) {
+      Array.from(el.children).forEach((c, i) => { c.style.transitionDelay = Math.min(i * 0.07, 0.7) + 's'; });
+    }
+    el.classList.add('is-in');
+  };
+
+  if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('reveal-armed');
+    // The browser evaluates intersections against settled layout, so this is
+    // immune to the transient height changes that break manual position reads.
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        reveal(en.target);
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+    animated.forEach((el) => io.observe(el));
+    // Safety net: reveal anything still hidden much later (never leave it blank)
+    setTimeout(() => animated.forEach(reveal), 8000);
+  }
+  // If IntersectionObserver is unavailable, CSS keeps everything visible.
+
+  /* GSAP parallax — purely decorative enhancement, safe to skip if absent */
   if (window.gsap && window.ScrollTrigger) {
     try {
       gsap.registerPlugin(ScrollTrigger);
-      document.documentElement.classList.add('reveal-armed');
-
-      // (a) Section headings & structural blocks — cinematic fade-up
-      reveals.forEach((el) => {
-        gsap.fromTo(el, { opacity: 0, y: 28 }, {
-          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-        });
-      });
-
-      // (b) Per-section staggered cascade for card grids & service rows
-      gridSel.forEach((sel) => {
-        const grid = $(sel); if (!grid || !grid.children.length) return;
-        gsap.set(grid.children, { opacity: 0, y: 34 });
-        ScrollTrigger.create({
-          trigger: grid, start: 'top 84%', once: true,
-          onEnter: () => gsap.to(grid.children, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }),
-        });
-      });
-
-      // (c) Zig-zag media parallax — transform only, pre-scaled to avoid gaps
       $$('.zz-media').forEach((m) => {
         const img = m.querySelector('img'); if (!img) return;
         gsap.fromTo(img, { yPercent: -12, scale: 1.22 }, {
@@ -302,34 +305,12 @@
           scrollTrigger: { trigger: m, start: 'top bottom', end: 'bottom top', scrub: 0.6 },
         });
       });
-
-      // (d) Hero depth parallax (multi-layer)
       gsap.to('.hero-glow.red',  { yPercent: 18,  ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
       gsap.to('.hero-glow.blue', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
       gsap.to('.hero-copy',      { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
       gsap.to('.hero-grid-bg',   { yPercent: 12,  ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
-
-      // Recompute positions after cards/images/fonts shift the layout
-      const refresh = () => ScrollTrigger.refresh();
-      window.addEventListener('load', refresh);
-      [400, 1200, 2500].forEach((t) => setTimeout(refresh, t));
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh).catch(() => {});
-      $$('img').forEach((img) => img.addEventListener('load', refresh, { once: true }));
-
-      // Safety net: never leave content stuck hidden
-      setTimeout(() => forceShow([...reveals, ...gridKids()]), 4800);
-    } catch (e) {
-      [...reveals, ...gridKids()].forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
-    }
-  } else if ('IntersectionObserver' in window) {
-    document.documentElement.classList.add('reveal-armed');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
-    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
-    reveals.forEach((el) => io.observe(el));
-    setTimeout(() => reveals.forEach((el) => el.classList.add('is-in')), 4800);
+    } catch (e) { /* parallax is optional */ }
   }
-  // If neither path ran, CSS leaves all content visible by default.
 
   /* ---------- Hero split-text reveal on load -------------------------- */
   if (window.gsap) {

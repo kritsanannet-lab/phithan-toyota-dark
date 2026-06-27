@@ -531,15 +531,22 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1
 /* =========================================================================
    ANIMATION HELPERS (GSAP targets / fallback)
    ========================================================================= */
-/* Content is visible by default. Reveals only hide once JS confirms it can
-   animate AND restore them — so a failed/slow GSAP never leaves content blank. */
+/* Scroll reveals run on IntersectionObserver + CSS transitions, so they work
+   on any device without depending on GSAP/ScrollTrigger position math.
+   Content is visible by default; it only hides once JS arms the reveals
+   (and a safety net forces it visible if the observer never fires). */
 .reveal { opacity: 1; transform: none; }
-.reveal-armed .reveal { opacity: 0; transform: translateY(16px); }
-.reveal-armed .reveal.is-in { opacity: 1; transform: none; transition: opacity 0.54s var(--ease), transform 0.54s var(--ease); }
+.reveal-armed .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.reveal-armed .reveal.is-in { opacity: 1; transform: none; }
+
+/* Per-section cascade: direct children stagger in when the grid enters view */
+.reveal-armed [data-cascade] > * { opacity: 0; transform: translateY(32px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.reveal-armed [data-cascade].is-in > * { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-  .reveal, .reveal-armed .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal, .reveal-armed .reveal,
+  .reveal-armed [data-cascade] > * { opacity: 1 !important; transform: none !important; }
 }
 
 /* =========================================================================
