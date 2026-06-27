@@ -294,8 +294,10 @@
   }
   // If IntersectionObserver is unavailable, CSS keeps everything visible.
 
-  /* GSAP parallax — purely decorative enhancement, safe to skip if absent */
-  if (window.gsap && window.ScrollTrigger) {
+  /* GSAP parallax — pure movement, so skip it when the user prefers reduced
+     motion (the opacity reveals above still run). */
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion && window.gsap && window.ScrollTrigger) {
     try {
       gsap.registerPlugin(ScrollTrigger);
       $$('.zz-media').forEach((m) => {

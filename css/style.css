@@ -544,9 +544,13 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1
 .reveal-armed [data-cascade].is-in > * { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-  .reveal, .reveal-armed .reveal,
-  .reveal-armed [data-cascade] > * { opacity: 1 !important; transform: none !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  /* Honour the motion preference by removing movement, but keep a soft
+     opacity fade so the scroll reveals are still perceptible. */
+  .reveal-armed .reveal,
+  .reveal-armed [data-cascade] > * { transform: none !important; transition: opacity 0.5s ease !important; }
+  .reveal-armed .reveal.is-in,
+  .reveal-armed [data-cascade].is-in > * { transform: none !important; }
 }
 
 /* =========================================================================
