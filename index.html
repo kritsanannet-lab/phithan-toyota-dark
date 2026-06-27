@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>พิธานโตโยต้า | Phithan Toyota — ตัวแทนจำหน่าย Toyota อย่างเป็นทางการ</title>
+  <meta name="description" content="พิธานพาณิชย์ ตัวแทนจำหน่าย Toyota อย่างเป็นทางการ กว่า 60 ปีแห่งความไว้วางใจ รถยนต์ใหม่ โปรโมชั่น ศูนย์บริการ และเครือข่าย Phithan BKK Group" />
+
+  <!-- Fonts: heading = LINE Seed (TH/EN), body = Google Sans, mono = JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Body (Google Sans) + heading fallback (Anuphan) + mono (JetBrains Mono) -->
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Anuphan:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Preferred heading face: LINE Seed (loads where reachable; falls back to Anuphan) -->
+  <link href="https://fonts.cdnfonts.com/css/line-seed-sans-th" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="header" id="header">
+    <div class="container nav">
+      <a href="#hero" class="logo" aria-label="Phithan Toyota">
+        <span class="logo-mark">P</span>
+        <span class="logo-text"><b>PHITHAN</b><span>TOYOTA</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="#hero">หน้าแรก</a></li>
+          <li class="has-mega">
+            <a href="#cars">รถยนต์โตโยต้า <i data-lucide="chevron-down" class="chev"></i></a>
+            <div class="mega">
+              <div class="mega-col">
+                <h5>ประเภทรถยนต์</h5>
+                <a href="#cars">รถยนต์นั่ง</a><a href="#cars">SUV &amp; PPV</a><a href="#cars">MPV</a>
+                <a href="#cars">รถกระบะ</a><a href="#cars">รถตู้</a><a href="#cars">GR Performance</a>
+              </div>
+              <div class="mega-col">
+                <h5>ยอดนิยม</h5>
+                <a href="#cars">Yaris ATIV</a><a href="#cars">Corolla Cross</a><a href="#cars">Fortuner</a>
+                <a href="#cars">Hilux Revo</a><a href="#cars">Veloz</a>
+              </div>
+              <div class="mega-col">
+                <h5>พลังงานไฟฟ้า</h5>
+                <a href="#cars">bZ4X</a><a href="#cars">Hilux Travo-e</a><a href="#cars">Hybrid Lineup</a>
+              </div>
+              <div class="mega-col">
+                <h5>บริการ</h5>
+                <a href="#services">คำนวณค่างวด</a><a href="#services">ทดลองขับ</a><a href="#promotions">ขอใบเสนอราคา</a>
+              </div>
+            </div>
+          </li>
+          <li class="has-mega">
+            <a href="#promotions">โปรโมชั่น <i data-lucide="chevron-down" class="chev"></i></a>
+            <div class="mega">
+              <div class="mega-col"><h5>โปรโมชั่น</h5><a href="#promotions">โปรโมชั่นรถยนต์</a><a href="#promotions">โปรโมชั่นศูนย์บริการ</a></div>
+              <div class="mega-col"><h5>&nbsp;</h5><a href="#promotions">ศูนย์ซ่อมตัวถังและสี</a><a href="#promotions">Toyota Used Car</a></div>
+              <div class="mega-col"><h5>Toyota Sure</h5><a href="#promotions">รถใช้แล้วคุณภาพดี</a><a href="#promotions">ดอกเบี้ยพิเศษ</a></div>
+              <div class="mega-col"><h5>การเงิน</h5><a href="#services">คำนวณค่างวด</a><a href="#promotions">สินเชื่อรถยนต์</a></div>
+            </div>
+          </li>
+          <li><a href="#services">บริการของเรา</a></li>
+          <li><a href="#blog">บทความ</a></li>
+          <li><a href="#group">เกี่ยวกับเรา</a></li>
+          <li><a href="#footer">ติดต่อเรา</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-right">
+        <a href="tel:020216666" class="call-pill"><i data-lucide="phone"></i> 02-021-6666</a>
+        <a href="#" class="btn btn-sm line-btn"><i data-lucide="message-circle"></i> LINE</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="เปิดเมนู"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div class="drawer" id="drawer">
+    <button class="drawer-close" id="drawerClose" aria-label="ปิดเมนู"><i data-lucide="x"></i></button>
+    <a href="#hero">หน้าแรก</a>
+    <a href="#cars">รถยนต์โตโยต้า</a>
+    <a href="#promotions">โปรโมชั่น</a>
+    <a href="#services">บริการของเรา</a>
+    <a href="#blog">บทความ</a>
+    <a href="#group">เกี่ยวกับเรา</a>
+    <a href="#branches">สาขาของเรา</a>
+    <a href="#footer">ติดต่อเรา</a>
+  </div>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow red"></div>
+    <div class="hero-glow blue"></div>
+
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="kicker" id="heroKicker">OFFICIAL TOYOTA DEALER</span>
+        <h1 id="heroTitle">กว่า 60 ปี<br>แห่งความไว้วางใจ</h1>
+        <p class="sub" id="heroSub">ตัวแทนจำหน่าย Toyota อย่างเป็นทางการ ขับเคลื่อนอนาคตการเดินทางไปกับเรา</p>
+        <div class="hero-cta">
+          <a href="#cars" class="btn btn-primary"><i data-lucide="car"></i> ดูรถยนต์ทั้งหมด</a>
+          <a href="#promotions" class="btn btn-ghost"><i data-lucide="file-text"></i> ขอใบเสนอราคา</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><b>60+</b><span>ปีประสบการณ์</span></div>
+          <div class="stat"><b>6</b><span>สาขาทั่วกรุงเทพ</span></div>
+          <div class="stat"><b>17</b><span>ธุรกิจในเครือ</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+        <img class="hero-car" id="heroCar" src="" alt="Toyota" />
+      </div>
+    </div>
+
+    <div class="hero-slider-dots" id="heroDots"></div>
+    <div class="scroll-hint">SCROLL <span class="bar"></span></div>
+  </section>
+
+  <!-- ===================== CAR SHOWCASE ===================== -->
+  <section class="section" id="cars">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">VEHICLE LINEUP</span>
+        <h2 class="text-grad">Toyota Vehicle Lineup</h2>
+        <p>เลือกชมรถยนต์โตโยต้าทุกรุ่น ตั้งแต่รถยนต์นั่ง SUV ไปจนถึง GR Performance พร้อมข้อมูลสมรรถนะและราคาเริ่มต้น</p>
+      </div>
+      <div class="tabs reveal" id="carTabs"></div>
+      <div class="car-grid" id="carGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES (zig-zag) ===================== -->
+  <section class="section" id="services" style="background:var(--bg-2)">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">OUR SERVICES</span>
+        <h2 class="text-grad">บริการของเรา</h2>
+        <p>ดูแลรถคุณด้วยมาตรฐานจากโตโยต้า พร้อมทีมช่างผู้เชี่ยวชาญ และเทคโนโลยีการบริการที่ทันสมัย</p>
+      </div>
+      <div class="zigzag" id="serviceList"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PROMOTIONS ===================== -->
+  <section class="section" id="promotions">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">PROMOTIONS</span>
+        <h2 class="text-grad">โปรโมชั่นล่าสุด</h2>
+        <p>ข้อเสนอพิเศษสำหรับรถยนต์ใหม่ ศูนย์บริการ ศูนย์ซ่อมตัวถังและสี และ Toyota Sure</p>
+      </div>
+      <div class="tabs reveal" id="promoTabs"></div>
+      <div class="promo-grid" id="promoGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== BRANCHES & MAP ===================== -->
+  <section class="section" id="branches" style="background:var(--bg-2)">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">BRANCHES &amp; MAP</span>
+        <h2 class="text-grad">สาขาพิธานโตโยต้า</h2>
+        <p>ค้นหาโชว์รูมและศูนย์บริการ จองคิวเช็คระยะได้ทันที เลือกสาขาเพื่อดูรายละเอียดและเส้นทาง</p>
+      </div>
+      <div class="branch-layout reveal">
+        <div class="branch-list" id="branchList"></div>
+        <div class="branch-panel" id="branchPanel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BLOG ===================== -->
+  <section class="section" id="blog">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">BLOG &amp; KNOWLEDGE</span>
+        <h2 class="text-grad">บทความและข่าวสาร</h2>
+        <p>อัปเดตข่าวสาร Toyota เทคนิคดูแลรถ รีวิวรถยนต์ และเรื่องราวไลฟ์สไตล์</p>
+      </div>
+      <div class="tabs reveal" id="blogTabs"></div>
+      <div class="blog-grid" id="blogGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== KNOWLEDGE & RELATED ===================== -->
+  <section class="section" id="knowledge" style="background:var(--bg-2)">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">RELATED</span>
+        <h2 class="text-grad">สาระน่ารู้และเว็บไซต์ที่เกี่ยวข้อง</h2>
+        <p>แหล่งรวมความรู้รอบด้านและเว็บไซต์ในเครือ เพื่อการใช้ชีวิตที่ดีขึ้นในทุกวัน</p>
+      </div>
+      <div class="know-grid" id="knowGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PHITHAN BKK GROUP ===================== -->
+  <section class="section" id="group">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="kicker">PHITHAN BKK GROUP</span>
+        <h2 class="text-grad">เครือข่ายธุรกิจครบวงจร</h2>
+        <p>ระบบนิเวศธุรกิจคุณภาพภายใต้การบริหารของบริษัท พิธานพาณิชย์ จำกัด ดูแลคุณในทุกมิติของการใช้ชีวิต</p>
+      </div>
+
+      <div class="group-hero reveal">
+        <div class="gh-left">
+          <h3>บริษัท พิธานพาณิชย์ จำกัด (กรุงเทพฯ)</h3>
+          <p>ก่อตั้งเมื่อปี พ.ศ. 2502 ดำเนินธุรกิจในฐานะผู้แทนจำหน่ายรถยนต์โตโยต้า พร้อมศูนย์บริการซ่อมบำรุงและจำหน่ายอะไหล่แท้ ได้รับการแต่งตั้งเป็นตัวแทนจำหน่ายอย่างเป็นทางการในปี พ.ศ. 2506 และขยายเป็นเครือข่ายธุรกิจที่หลากหลายในปัจจุบัน</p>
+        </div>
+        <div class="gh-num"><b>17</b><span>BUSINESSES</span></div>
+      </div>
+
+      <div class="eco-grid" id="ecoGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="section cta" id="cta">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <span class="glow red"></span><span class="glow blue"></span>
+        <h2 class="text-grad">พร้อมให้เราดูแลคุณและรถยนต์ Toyota ของคุณ</h2>
+        <p>ทีมงานพิธานโตโยต้าพร้อมให้บริการคุณในทุกขั้นตอน</p>
+        <div class="cta-buttons">
+          <a href="#promotions" class="btn btn-primary"><i data-lucide="file-text"></i> ขอใบเสนอราคา</a>
+          <a href="#cars" class="btn btn-blue"><i data-lucide="car-front"></i> นัดทดลองขับ</a>
+          <a href="#services" class="btn btn-ghost"><i data-lucide="calendar-check"></i> นัดหมายเข้าศูนย์บริการ</a>
+          <a href="#footer" class="btn btn-ghost"><i data-lucide="phone"></i> ติดต่อเรา</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="f-brand">
+          <a href="#hero" class="logo">
+            <span class="logo-mark">P</span>
+            <span class="logo-text"><b>PHITHAN</b><span>TOYOTA</span></span>
+          </a>
+          <p>บริษัท พิธานพาณิชย์ จำกัด ตัวแทนจำหน่าย Toyota อย่างเป็นทางการ กว่า 60 ปีแห่งความไว้วางใจ</p>
+          <div class="f-contact-line"><i data-lucide="phone"></i> Call Center 02-021-6666 ต่อ 1</div>
+          <div class="f-contact-line"><i data-lucide="message-circle"></i> LINE @phithanbkk · @psf1</div>
+          <div class="f-contact-line"><i data-lucide="map-pin"></i> 6 สาขาทั่วกรุงเทพฯ และปริมณฑล</div>
+        </div>
+
+        <div class="f-col">
+          <h5>บริษัท</h5>
+          <a href="#group">เกี่ยวกับเรา</a><a href="#group">ประวัติบริษัท</a><a href="#branches">สาขาของเรา</a>
+          <a href="#">แผนผังเว็บไซต์</a><a href="#">ปฏิทินวันหยุด</a><a href="#">ร่วมงานกับเรา</a>
+        </div>
+        <div class="f-col">
+          <h5>รถยนต์</h5>
+          <a href="#cars">รถยนต์นั่งส่วนบุคคล</a><a href="#cars">รถยนต์อเนกประสงค์</a>
+          <a href="#cars">รถยนต์เพื่อการพาณิชย์</a><a href="#promotions">โปรโมชั่นรถใหม่</a>
+        </div>
+        <div class="f-col">
+          <h5>บริการ</h5>
+          <a href="#promotions">ขอใบเสนอราคา</a><a href="#services">นัดหมายออนไลน์</a>
+          <a href="#services">นัดหมายทดลองขับ</a><a href="#promotions">โปรโมชั่นศูนย์บริการ</a>
+        </div>
+        <div class="f-col">
+          <h5>บทความ</h5>
+          <a href="#blog">ข่าวสารและกิจกรรม</a><a href="#blog">บทความความรู้รถยนต์</a>
+          <a href="#knowledge">ความรู้เทคนิครถยนต์</a><a href="#knowledge">สาระน่ารู้เพื่อทุกคน</a>
+        </div>
+        <div class="f-col">
+          <h5>เครือบริษัท</h5>
+          <a href="#group">ธุรกิจในเครือ</a><a href="#promotions">Toyota Sure</a>
+          <a href="#">Shops2fun</a><a href="#">Trumq Cafe</a><a href="#">ครัวรักเมืองไทย</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="copy">© 2026 Phithan Panich Co., Ltd. All Rights Reserved.</span>
+        <div class="f-social">
+          <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+          <a href="#" aria-label="LINE"><i data-lucide="message-circle"></i></a>
+          <a href="#" aria-label="YouTube"><i data-lucide="youtube"></i></a>
+          <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+          <a href="#" aria-label="X"><i data-lucide="twitter"></i></a>
+        </div>
+        <div class="f-legal">
+          <a href="#">Privacy Policy</a><a href="#">Cookie Policy</a>
+          <a href="#">CCTV Policy</a><a href="#">Terms &amp; Conditions</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Branch modal -->
+  <div class="modal-overlay" id="branchModal">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="ปิด"><i data-lucide="x"></i></button>
+      <div class="modal-img"><img id="modalImg" src="" alt="" /></div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <!-- Vendored locally so the site has no third-party runtime dependency -->
+  <script src="vendor/lucide.min.js"></script>
+  <script src="vendor/gsap.min.js"></script>
+  <script src="vendor/ScrollTrigger.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
