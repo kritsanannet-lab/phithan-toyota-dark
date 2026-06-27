@@ -59,7 +59,7 @@
     `<button class="tab${c.key === 'all' ? ' active' : ''}" data-cat="${c.key}"><b>${c.label}</b><span>${c.sub}</span></button>`
   ).join('');
 
-  function renderCars() {
+  function renderCars(animate) {
     const list = carFilter === 'all' ? D.carData : D.carData.filter((c) => c.category === carFilter);
     if (!list.length) { carGrid.innerHTML = `<div class="empty-cars">ไม่พบรถยนต์ในหมวดนี้</div>`; return; }
     carGrid.innerHTML = list.map((c) => `
@@ -81,7 +81,7 @@
         </div>
       </article>`).join('');
     refreshIcons();
-    if (window.gsap) {
+    if (animate && window.gsap) {
       gsap.fromTo('.car-card', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.05 });
     }
   }
@@ -89,13 +89,13 @@
     const btn = e.target.closest('.tab'); if (!btn) return;
     $$('.tab', carTabs).forEach((t) => t.classList.remove('active'));
     btn.classList.add('active');
-    carFilter = btn.dataset.cat; renderCars();
+    carFilter = btn.dataset.cat; renderCars(true);
   });
   renderCars();
 
   /* ---------- SECTION 3 — Services (zig-zag) -------------------------- */
   $('#serviceList').innerHTML = D.serviceData.map((s, i) => `
-    <div class="zz-row reveal">
+    <div class="zz-row">
       <div class="zz-media">
         <img src="${s.img}" alt="${s.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/svc${i}/800/550'" />
         <span class="zz-num">SERVICE / 0${i + 1}</span>
@@ -118,7 +118,7 @@
     `<button class="tab${i === 0 ? ' active' : ''}" data-key="${k}"><b>${D.promotionData[k].label}</b></button>`
   ).join('');
 
-  function renderPromos() {
+  function renderPromos(animate) {
     const items = D.promotionData[promoFilter].items;
     promoGrid.innerHTML = items.map((p) => `
       <article class="promo-card">
@@ -131,13 +131,13 @@
         </div>
       </article>`).join('');
     refreshIcons();
-    if (window.gsap) gsap.fromTo('.promo-card', { opacity: 0, scale: 0.96, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.08 });
+    if (animate && window.gsap) gsap.fromTo('.promo-card', { opacity: 0, scale: 0.96, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.08 });
   }
   promoTabs.addEventListener('click', (e) => {
     const btn = e.target.closest('.tab'); if (!btn) return;
     $$('.tab', promoTabs).forEach((t) => t.classList.remove('active'));
     btn.classList.add('active');
-    promoFilter = btn.dataset.key; renderPromos();
+    promoFilter = btn.dataset.key; renderPromos(true);
   });
   renderPromos();
 
@@ -211,7 +211,7 @@
   blogTabs.innerHTML = `<button class="tab active" data-cat="all"><b>ทั้งหมด</b></button>` +
     D.blogCategories.map((c) => `<button class="tab" data-cat="${c}"><b>${c}</b></button>`).join('');
 
-  function renderBlog() {
+  function renderBlog(animate) {
     const list = blogFilter === 'all' ? D.blogPosts : D.blogPosts.filter((p) => p.cat === blogFilter);
     blogGrid.innerHTML = (list.length ? list : D.blogPosts).map((p) => `
       <article class="blog-card">
@@ -223,13 +223,13 @@
         </div>
       </article>`).join('');
     refreshIcons();
-    if (window.gsap) gsap.fromTo('.blog-card', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.06 });
+    if (animate && window.gsap) gsap.fromTo('.blog-card', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.06 });
   }
   blogTabs.addEventListener('click', (e) => {
     const btn = e.target.closest('.tab'); if (!btn) return;
     $$('.tab', blogTabs).forEach((t) => t.classList.remove('active'));
     btn.classList.add('active');
-    blogFilter = btn.dataset.cat; renderBlog();
+    blogFilter = btn.dataset.cat; renderBlog(true);
   });
   renderBlog();
 
@@ -246,7 +246,7 @@
 
   /* ---------- SECTION 8 — Phithan BKK Group --------------------------- */
   $('#ecoGrid').innerHTML = D.groupData.map((g) => `
-    <article class="eco-node ${g.color} reveal">
+    <article class="eco-node ${g.color}">
       <div class="eco-head">
         <span class="e-icon"><i data-lucide="${g.icon}"></i></span>
         <div><h4>${g.group}</h4><span class="mono">${g.items.length} ธุรกิจ</span></div>
@@ -260,40 +260,66 @@
   function refreshIcons() { if (window.lucide) window.lucide.createIcons(); }
   refreshIcons();
 
-  /* ---------- Scroll reveal — robust, never leaves content hidden ------ */
+  /* ---------- Scroll effects — robust, never leaves content hidden ----- */
   const reveals = $$('.reveal');
-  const showAll = () => reveals.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
+  const gridSel = ['#carGrid', '#promoGrid', '#blogGrid', '#knowGrid', '#ecoGrid', '#serviceList'];
+  const gridKids = () => gridSel.flatMap((s) => { const g = $(s); return g ? Array.from(g.children) : []; });
+  const forceShow = (els) => els.forEach((el) => {
+    if (parseFloat(getComputedStyle(el).opacity) < 0.05) {
+      if (window.gsap) gsap.to(el, { opacity: 1, y: 0, scale: 1, duration: 0.4 });
+      else { el.style.opacity = '1'; el.style.transform = 'none'; }
+    }
+  });
 
   if (window.gsap && window.ScrollTrigger) {
     try {
       gsap.registerPlugin(ScrollTrigger);
       document.documentElement.classList.add('reveal-armed');
+
+      // (a) Section headings & structural blocks — cinematic fade-up
       reveals.forEach((el) => {
-        gsap.fromTo(el, { opacity: 0, y: 16 }, {
-          opacity: 1, y: 0, duration: 0.54, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+        gsap.fromTo(el, { opacity: 0, y: 28 }, {
+          opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
         });
       });
 
-      // Subtle parallax on hero glows
+      // (b) Per-section staggered cascade for card grids & service rows
+      gridSel.forEach((sel) => {
+        const grid = $(sel); if (!grid || !grid.children.length) return;
+        gsap.set(grid.children, { opacity: 0, y: 34 });
+        ScrollTrigger.create({
+          trigger: grid, start: 'top 84%', once: true,
+          onEnter: () => gsap.to(grid.children, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 }),
+        });
+      });
+
+      // (c) Zig-zag media parallax — transform only, pre-scaled to avoid gaps
+      $$('.zz-media').forEach((m) => {
+        const img = m.querySelector('img'); if (!img) return;
+        gsap.fromTo(img, { yPercent: -12, scale: 1.22 }, {
+          yPercent: 12, ease: 'none',
+          scrollTrigger: { trigger: m, start: 'top bottom', end: 'bottom top', scrub: 0.6 },
+        });
+      });
+
+      // (d) Hero depth parallax (multi-layer)
       gsap.to('.hero-glow.red',  { yPercent: 18,  ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
       gsap.to('.hero-glow.blue', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to('.hero-copy',      { yPercent: -10, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to('.hero-grid-bg',   { yPercent: 12,  ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-      // Trigger positions are computed once; injected cards, images and fonts
-      // shift the layout afterward. Recompute so lower sections still fire.
+      // Recompute positions after cards/images/fonts shift the layout
       const refresh = () => ScrollTrigger.refresh();
       window.addEventListener('load', refresh);
       [400, 1200, 2500].forEach((t) => setTimeout(refresh, t));
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh).catch(() => {});
-      // Re-measure whenever any lazy image finishes loading
       $$('img').forEach((img) => img.addEventListener('load', refresh, { once: true }));
 
-      // Last-resort safety net: reveal anything still hidden after a few seconds
-      setTimeout(() => {
-        reveals.forEach((el) => { if (parseFloat(getComputedStyle(el).opacity) < 0.05) gsap.to(el, { opacity: 1, y: 0, duration: 0.4 }); });
-      }, 4500);
+      // Safety net: never leave content stuck hidden
+      setTimeout(() => forceShow([...reveals, ...gridKids()]), 4800);
     } catch (e) {
-      showAll();
+      [...reveals, ...gridKids()].forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
     }
   } else if ('IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-armed');
@@ -301,10 +327,9 @@
       entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
     }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
     reveals.forEach((el) => io.observe(el));
-    // Safety: if observer never fires for something, show it
-    setTimeout(() => reveals.forEach((el) => { if (!el.classList.contains('is-in')) el.classList.add('is-in'); }), 4500);
+    setTimeout(() => reveals.forEach((el) => el.classList.add('is-in')), 4800);
   }
-  // If neither path ran, CSS leaves content visible by default.
+  // If neither path ran, CSS leaves all content visible by default.
 
   /* ---------- Hero split-text reveal on load -------------------------- */
   if (window.gsap) {

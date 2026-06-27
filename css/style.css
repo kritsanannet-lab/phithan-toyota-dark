@@ -333,8 +333,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1
 .zz-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
 .zz-row:nth-child(even) .zz-media { order: 2; }
 .zz-media { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 16/11; border: 1px solid var(--border); }
-.zz-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
-.zz-row:hover .zz-media img { transform: scale(1.05); }
+.zz-media img { width: 100%; height: 100%; object-fit: cover; }
 .zz-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, transparent 40%, rgba(10,10,11,0.6)); }
 .zz-num { position: absolute; bottom: 1rem; left: 1.2rem; z-index: 2; font-family: var(--font-mono); font-size: 0.8rem; color: var(--blue); letter-spacing: 0.1em; }
 .zz-copy .icon-chip { width: 52px; height: 52px; border-radius: var(--radius); background: var(--surface-2); border: 1px solid var(--border); display: grid; place-items: center; margin-bottom: 1.25rem; }
