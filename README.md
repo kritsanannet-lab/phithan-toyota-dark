@@ -7,7 +7,7 @@ electric vehicles, autonomous driving และ AI
 ## ✨ ไฮไลต์การออกแบบ
 
 - **Full dark mode** — พื้นหลัง off-black/charcoal ตามสเปก (ไม่ใช้ดำสนิท `#000`)
-- **Accent:** แดง Toyota `#CC0000` + ทองอำพัน `#E0A22B` (โทนยานยนต์พรีเมียม)
+- **Accent:** โมโนโครม — แดง Toyota `#CC0000` เป็นสีเดียว ที่เหลือเป็นเฉดเทา/เงิน `#C7CBD2`
 - **Typography:** หัวข้อใช้ **LINE Seed** · เนื้อหาใช้ **Google Sans** · ค่าทางเทคนิคใช้ **JetBrains Mono**
 - **Motion:** GSAP + ScrollTrigger — split-text reveal, staggered cascade, parallax, hover lift
 - **Layout:** Grid สูงสุด 1280px, hero split-screen, services แบบ zig-zag, ใช้ `min-h-[100dvh]`
