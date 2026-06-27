@@ -260,25 +260,51 @@
   function refreshIcons() { if (window.lucide) window.lucide.createIcons(); }
   refreshIcons();
 
-  /* ---------- Scroll reveal (GSAP ScrollTrigger + fallback) ----------- */
+  /* ---------- Scroll reveal — robust, never leaves content hidden ------ */
+  const reveals = $$('.reveal');
+  const showAll = () => reveals.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; });
+
   if (window.gsap && window.ScrollTrigger) {
-    gsap.registerPlugin(ScrollTrigger);
-    $$('.reveal').forEach((el) => {
-      gsap.fromTo(el, { opacity: 0, y: 16 }, {
-        opacity: 1, y: 0, duration: 0.54, ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' },
+    try {
+      gsap.registerPlugin(ScrollTrigger);
+      document.documentElement.classList.add('reveal-armed');
+      reveals.forEach((el) => {
+        gsap.fromTo(el, { opacity: 0, y: 16 }, {
+          opacity: 1, y: 0, duration: 0.54, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+        });
       });
-    });
-    // Subtle parallax on hero rings
-    gsap.to('.hero-glow.red',  { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.to('.hero-glow.blue', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
-  } else {
-    // IntersectionObserver fallback
+
+      // Subtle parallax on hero glows
+      gsap.to('.hero-glow.red',  { yPercent: 18,  ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to('.hero-glow.blue', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+      // Trigger positions are computed once; injected cards, images and fonts
+      // shift the layout afterward. Recompute so lower sections still fire.
+      const refresh = () => ScrollTrigger.refresh();
+      window.addEventListener('load', refresh);
+      [400, 1200, 2500].forEach((t) => setTimeout(refresh, t));
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh).catch(() => {});
+      // Re-measure whenever any lazy image finishes loading
+      $$('img').forEach((img) => img.addEventListener('load', refresh, { once: true }));
+
+      // Last-resort safety net: reveal anything still hidden after a few seconds
+      setTimeout(() => {
+        reveals.forEach((el) => { if (parseFloat(getComputedStyle(el).opacity) < 0.05) gsap.to(el, { opacity: 1, y: 0, duration: 0.4 }); });
+      }, 4500);
+    } catch (e) {
+      showAll();
+    }
+  } else if ('IntersectionObserver' in window) {
+    document.documentElement.classList.add('reveal-armed');
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
-    }, { threshold: 0.12 });
-    $$('.reveal').forEach((el) => io.observe(el));
+    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+    reveals.forEach((el) => io.observe(el));
+    // Safety: if observer never fires for something, show it
+    setTimeout(() => reveals.forEach((el) => { if (!el.classList.contains('is-in')) el.classList.add('is-in'); }), 4500);
   }
+  // If neither path ran, CSS leaves content visible by default.
 
   /* ---------- Hero split-text reveal on load -------------------------- */
   if (window.gsap) {

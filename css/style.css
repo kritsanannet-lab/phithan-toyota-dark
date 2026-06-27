@@ -532,12 +532,15 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1
 /* =========================================================================
    ANIMATION HELPERS (GSAP targets / fallback)
    ========================================================================= */
-.reveal { opacity: 0; transform: translateY(16px); }
-.is-in { opacity: 1; transform: none; transition: opacity 0.54s var(--ease), transform 0.54s var(--ease); }
+/* Content is visible by default. Reveals only hide once JS confirms it can
+   animate AND restore them — so a failed/slow GSAP never leaves content blank. */
+.reveal { opacity: 1; transform: none; }
+.reveal-armed .reveal { opacity: 0; transform: translateY(16px); }
+.reveal-armed .reveal.is-in { opacity: 1; transform: none; transition: opacity 0.54s var(--ease), transform 0.54s var(--ease); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-  .reveal { opacity: 1; transform: none; }
+  .reveal, .reveal-armed .reveal { opacity: 1 !important; transform: none !important; }
 }
 
 /* =========================================================================
