@@ -8,9 +8,9 @@
   const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
   const baht = (n) => n.toLocaleString('th-TH');
 
-  /* ---------- Header scroll state ------------------------------------- */
-  const header = $('#header');
-  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+  /* ---------- Header scroll state (slides the top bar away) ------------ */
+  const siteTop = $('#siteTop') || $('#header');
+  const onScroll = () => siteTop.classList.toggle('scrolled', window.scrollY > 24);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
