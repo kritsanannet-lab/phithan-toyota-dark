@@ -66,7 +66,7 @@
       <article class="car-card">
         <div class="car-media">
           <span class="car-tag">${c.tag}</span>
-          <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.src='https://picsum.photos/seed/car${c.id}/600/400'" />
+          <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.onerror=null;this.src='https://picsum.photos/seed/car${c.id}/600/400'" />
         </div>
         <div class="car-body">
           <h3 class="car-name">${c.name}</h3>
@@ -97,7 +97,7 @@
   $('#serviceList').innerHTML = D.serviceData.map((s, i) => `
     <div class="zz-row">
       <div class="zz-media">
-        <img src="${s.img}" alt="${s.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/svc${i}/800/550'" />
+        <img src="${s.img}" alt="${s.title}" loading="lazy" onerror="this.onerror=null;this.src='https://picsum.photos/seed/svc${i}/800/550'" />
         <span class="zz-num">SERVICE / 0${i + 1}</span>
       </div>
       <div class="zz-copy">
@@ -122,7 +122,7 @@
     const items = D.promotionData[promoFilter].items;
     promoGrid.innerHTML = items.map((p) => `
       <article class="promo-card">
-        <div class="promo-media"><img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/${encodeURIComponent(p.url)}/700/400'" /></div>
+        <div class="promo-media"><img src="${p.image}" alt="${p.title}" loading="lazy" onerror="this.onerror=null;this.src='https://picsum.photos/seed/${encodeURIComponent(p.url)}/700/400'" /></div>
         <div class="promo-body">
           <span class="promo-date"><i data-lucide="calendar"></i> ${p.date}</span>
           <h3 class="promo-title">${p.title}</h3>
@@ -158,7 +158,7 @@
   function renderBranchPanel(i) {
     const b = D.branches[i];
     branchPanel.innerHTML = `
-      <div class="bp-bg"><img src="${b.bgImage}" alt="${b.name}" onerror="this.src='https://picsum.photos/seed/branch${b.id}/900/600'" /></div>
+      <div class="bp-bg"><img src="${b.bgImage}" alt="${b.name}" onerror="this.onerror=null;this.src='https://picsum.photos/seed/branch${b.id}/900/600'" /></div>
       <div class="bp-content">
         <h3>${b.name}</h3>
         <p class="bp-addr"><i data-lucide="map-pin"></i> ${b.address}</p>
@@ -279,18 +279,33 @@
 
   if ('IntersectionObserver' in window) {
     document.documentElement.classList.add('reveal-armed');
-    // The browser evaluates intersections against settled layout, so this is
-    // immune to the transient height changes that break manual position reads.
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         if (!en.isIntersecting) return;
         reveal(en.target);
         io.unobserve(en.target);
       });
-    }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
-    animated.forEach((el) => io.observe(el));
+    }, { threshold: 0, rootMargin: '0px 0px -6% 0px' });
+    // Also reveal whatever is left once the user reaches the bottom, so short
+    // elements sitting in the last sliver of the page never stay hidden.
+    window.addEventListener('scroll', () => {
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) animated.forEach(reveal);
+    }, { passive: true });
+
+    // Start observing only AFTER the page has loaded. While images are still
+    // loading the page height grows, which would otherwise make every section
+    // briefly intersect at once and reveal instantly (no animation). Observing
+    // once layout is settled keeps the reveals tied to real scroll position.
+    let started = false;
+    const start = () => {
+      if (started) return; started = true;
+      requestAnimationFrame(() => animated.forEach((el) => io.observe(el)));
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start);
+    setTimeout(start, 2500); // fallback if 'load' is slow to fire
     // Safety net: reveal anything still hidden much later (never leave it blank)
-    setTimeout(() => animated.forEach(reveal), 8000);
+    setTimeout(() => animated.forEach(reveal), 5000);
   }
   // If IntersectionObserver is unavailable, CSS keeps everything visible.
 
