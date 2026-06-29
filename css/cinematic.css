@@ -1,0 +1,36 @@
+/* =========================================================================
+   CINEMATIC ANIMATION SCAFFOLDING
+   Purely enables GSAP-driven motion — no layout/typography/colour/spacing
+   changes. Everything here is inert until cinematic.js adds inline transforms.
+   ========================================================================= */
+
+/* Split-text wrappers (hero characters / headline words).
+   No overflow masking — Thai vowel/tone marks must never be clipped. */
+.ch { display: inline-block; will-change: transform, opacity; }
+.word-line { display: inline-block; vertical-align: top; }
+.word { display: inline-block; will-change: transform, opacity; }
+
+/* GPU hints for the heaviest scroll targets */
+.car-card, .promo-card, .blog-card, .know-card, .eco-node, .zz-row,
+.branch-item, .cta-inner, .hero-visual, .section-head h2 {
+  will-change: transform, opacity;
+}
+
+/* Hero floating particles (decorative motion layer) */
+.hero-particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.particle { position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.35); will-change: transform, opacity; }
+
+/* Promotions — light sweep across the image (luxury editorial) */
+.promo-media .sweep {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.16) 50%, transparent 62%);
+  transform: translateX(-130%);
+  will-change: transform;
+}
+
+/* 3D context for cards that tilt */
+.promo-grid, .know-grid { perspective: 1200px; }
+.know-card, .promo-card { transform-style: preserve-3d; }
+
+/* Footer logo soft glow target */
+.f-brand .logo-mark { will-change: filter; }
