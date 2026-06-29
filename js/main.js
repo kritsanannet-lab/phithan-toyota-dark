@@ -267,6 +267,10 @@
   const grids = ['#carGrid', '#promoGrid', '#blogGrid', '#knowGrid', '#ecoGrid', '#serviceList']
     .map((s) => $(s)).filter(Boolean);
   grids.forEach((g) => g.setAttribute('data-cascade', ''));
+  // Distinct motion per section so each reads differently as you scroll
+  $('#promoGrid')?.classList.add('fx-scale');
+  $('#knowGrid')?.classList.add('fx-scale');
+  $('#serviceList')?.classList.add('fx-zigzag');
   const animated = [...reveals, ...grids];
 
   const reveal = (el) => {

@@ -540,8 +540,17 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1
 .reveal-armed .reveal.is-in { opacity: 1; transform: none; }
 
 /* Per-section cascade: direct children stagger in when the grid enters view */
-.reveal-armed [data-cascade] > * { opacity: 0; transform: translateY(32px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+.reveal-armed [data-cascade] > * { opacity: 0; transform: translateY(40px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
 .reveal-armed [data-cascade].is-in > * { opacity: 1; transform: none; }
+
+/* Distinct per-section flavours (assigned in JS) ----------------------- */
+/* Promotions / Knowledge: scale-up pop */
+.reveal-armed [data-cascade].fx-scale > * { transform: translateY(28px) scale(0.9); }
+.reveal-armed [data-cascade].fx-scale.is-in > * { transform: none; }
+/* Services zig-zag: alternating slide from the sides */
+.reveal-armed [data-cascade].fx-zigzag > *:nth-child(odd)  { transform: translateX(-64px); }
+.reveal-armed [data-cascade].fx-zigzag > *:nth-child(even) { transform: translateX(64px); }
+.reveal-armed [data-cascade].fx-zigzag.is-in > * { transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
