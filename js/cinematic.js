@@ -162,18 +162,18 @@
   }
 
   /* ===================================================================
-     SECTION 3 — SERVICES · Apple depth stack
-     rows rise with a depth scale (0.92 → 1), image slow parallax
+     SECTION 3 — SERVICES · card grid (featured + tiles)
+     cards rise with a depth scale (0.94 → 1), image settles from a zoom
      =================================================================== */
   function services() {
-    $$('#serviceList .zz-row').forEach((row) => {
-      gsap.set(row, { opacity: 0, scale: 0.92, y: 70 });
-      gsap.to(row, {
-        opacity: 1, scale: 1, y: 0, duration: 1.2, ease: EXPO,
-        scrollTrigger: { trigger: row, start: 'top 82%', once: true },
+    $$('#serviceList .service-card').forEach((card, i) => {
+      gsap.set(card, { opacity: 0, y: 60, scale: 0.94 });
+      gsap.to(card, {
+        opacity: 1, y: 0, scale: 1, duration: 1.1, ease: EXPO, delay: (i % 3) * 0.06,
+        scrollTrigger: { trigger: card, start: 'top 85%', once: true },
       });
-      const img = $('.zz-media img', row);
-      if (img) gsap.fromTo(img, { scale: 1.3, yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: row, start: 'top bottom', end: 'bottom top', scrub: 0.5 } });
+      const img = $('.service-media img', card);
+      if (img) gsap.fromTo(img, { scale: 1.25 }, { scale: 1, duration: 1.4, ease: EXPO, scrollTrigger: { trigger: card, start: 'top 85%', once: true } });
     });
   }
 

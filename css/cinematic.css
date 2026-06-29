@@ -11,7 +11,7 @@
 .word { display: inline-block; will-change: transform, opacity; }
 
 /* GPU hints for the heaviest scroll targets */
-.car-card, .promo-card, .blog-card, .know-card, .eco-node, .zz-row,
+.car-card, .promo-card, .blog-card, .know-card, .eco-node, .service-card,
 .branch-item, .cta-inner, .hero-visual, .section-head h2 {
   will-change: transform, opacity;
 }

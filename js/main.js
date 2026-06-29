@@ -72,20 +72,20 @@
     </article>`).join('');
   refreshIcons();
 
-  /* ---------- SECTION 3 — Services (zig-zag) -------------------------- */
+  /* ---------- SECTION 3 — Services (card grid, first card featured) --- */
   $('#serviceList').innerHTML = D.serviceData.map((s, i) => `
-    <div class="zz-row">
-      <div class="zz-media">
+    <article class="service-card${i === 0 ? ' featured' : ''}">
+      <div class="service-media">
         <img src="${s.img}" alt="${s.title}" loading="lazy" onerror="this.onerror=null;this.src='https://picsum.photos/seed/svc${i}/800/550'" />
-        <span class="zz-num">SERVICE / 0${i + 1}</span>
+        <span class="service-num">SERVICE / 0${i + 1}</span>
       </div>
-      <div class="zz-copy">
+      <div class="service-body">
         <div class="icon-chip"><i data-lucide="${s.icon}"></i></div>
         <h3>${s.title}</h3>
         <p>${s.desc}</p>
-        <a href="#promotions" class="btn btn-ghost btn-sm">เรียนรู้เพิ่มเติม <i data-lucide="arrow-up-right"></i></a>
+        <a href="#promotions" class="service-link">เรียนรู้เพิ่มเติม <i data-lucide="arrow-up-right"></i></a>
       </div>
-    </div>`).join('');
+    </article>`).join('');
 
   /* ---------- SECTION 4 — Promotions ---------------------------------- */
   const promoTabs = $('#promoTabs');
