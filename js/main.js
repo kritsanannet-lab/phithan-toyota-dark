@@ -50,48 +50,27 @@
   dots.forEach((d) => d.addEventListener('click', () => { setHero(+d.dataset.i); startHero(); }));
   setHero(0, false); startHero();
 
-  /* ---------- SECTION 2 — Car showcase -------------------------------- */
+  /* ---------- SECTION 2 — Car showcase (one model per category) -------- */
   const carGrid = $('#carGrid');
-  const carTabs = $('#carTabs');
-  let carFilter = 'all';
+  // One representative model per category, in lineup order:
+  // Camry · Fortuner Legender · Alphard · Hilux Revo Z Edition · Majesty · GR Supra
+  const lineupIds = [11, 19, 23, 26, 33, 4];
+  const lineup = lineupIds.map((id) => D.carData.find((c) => c.id === id)).filter(Boolean);
 
-  carTabs.innerHTML = D.carCategories.map((c) =>
-    `<button class="tab${c.key === 'all' ? ' active' : ''}" data-cat="${c.key}"><b>${c.label}</b><span>${c.sub}</span></button>`
-  ).join('');
-
-  function renderCars(animate) {
-    const list = carFilter === 'all' ? D.carData : D.carData.filter((c) => c.category === carFilter);
-    if (!list.length) { carGrid.innerHTML = `<div class="empty-cars">ไม่พบรถยนต์ในหมวดนี้</div>`; return; }
-    carGrid.innerHTML = list.map((c) => `
-      <article class="car-card">
-        <div class="car-media">
-          <span class="car-tag">${c.tag}</span>
-          <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.onerror=null;this.src='https://picsum.photos/seed/car${c.id}/600/400'" />
+  carGrid.innerHTML = lineup.map((c) => `
+    <article class="car-card">
+      <div class="car-media">
+        <img src="${c.img}" alt="${c.name}" loading="lazy" onerror="this.onerror=null;this.src='https://picsum.photos/seed/car${c.id}/600/400'" />
+      </div>
+      <div class="car-body">
+        <h3 class="car-name">${c.name}</h3>
+        <div class="car-foot">
+          <div class="car-price"><small>เริ่มต้น</small><b>฿${baht(c.price)}</b></div>
+          <a href="#" class="car-link">ดูรายละเอียด <i data-lucide="arrow-right"></i></a>
         </div>
-        <div class="car-body">
-          <h3 class="car-name">${c.name}</h3>
-          <div class="car-specs">
-            <span><i data-lucide="gauge"></i> ${c.hp}</span>
-            <span><i data-lucide="timer"></i> 0-100 ${c.speed}</span>
-          </div>
-          <div class="car-foot">
-            <div class="car-price"><small>เริ่มต้น</small><b>฿${baht(c.price)}</b></div>
-            <a href="#" class="car-link">ดูรายละเอียด <i data-lucide="arrow-right"></i></a>
-          </div>
-        </div>
-      </article>`).join('');
-    refreshIcons();
-    if (animate && window.gsap) {
-      gsap.fromTo('.car-card', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.05 });
-    }
-  }
-  carTabs.addEventListener('click', (e) => {
-    const btn = e.target.closest('.tab'); if (!btn) return;
-    $$('.tab', carTabs).forEach((t) => t.classList.remove('active'));
-    btn.classList.add('active');
-    carFilter = btn.dataset.cat; renderCars(true);
-  });
-  renderCars();
+      </div>
+    </article>`).join('');
+  refreshIcons();
 
   /* ---------- SECTION 3 — Services (zig-zag) -------------------------- */
   $('#serviceList').innerHTML = D.serviceData.map((s, i) => `
