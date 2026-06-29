@@ -313,6 +313,13 @@
   }
   // If IntersectionObserver is unavailable, CSS keeps everything visible.
 
+  // Diagnostic marker — open DevTools (F12) → Console to confirm this build is
+  // running and that scroll effects are armed.
+  console.log('%c[Phithan] scroll-fx ready', 'color:#CC0000;font-weight:700',
+    { build: 'scroll-fx-v2', armed: document.documentElement.classList.contains('reveal-armed'),
+      animatedElements: animated.length, reducedMotion: !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches),
+      gsap: !!window.gsap });
+
   /* GSAP parallax — pure movement, so skip it when the user prefers reduced
      motion (the opacity reveals above still run). */
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
