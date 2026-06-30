@@ -183,11 +183,18 @@
      =================================================================== */
   function promotions() {
     $$('#promoGrid .promo-card').forEach((card) => {
-      gsap.set(card, { opacity: 0, rotateY: 14, rotateX: 6, y: 50, transformPerspective: 1000, transformOrigin: 'left center' });
-      gsap.to(card, {
-        opacity: 1, rotateY: 0, rotateX: 0, y: 0, duration: 1.3, ease: EXPO,
-        scrollTrigger: { trigger: card, start: 'top 86%', once: true },
-      });
+      if (desktop) {
+        gsap.set(card, { opacity: 0, rotateY: 14, rotateX: 6, y: 50, transformPerspective: 1000, transformOrigin: 'left center' });
+        gsap.to(card, {
+          opacity: 1, rotateY: 0, rotateX: 0, y: 0, duration: 1.3, ease: EXPO,
+          scrollTrigger: { trigger: card, start: 'top 86%', once: true },
+        });
+      } else {
+        // On the mobile slider, a flat fade-up avoids 3D clipping inside the
+        // horizontal scroll container; all cards reveal as the slider enters.
+        gsap.set(card, { opacity: 0, y: 28 });
+        gsap.to(card, { opacity: 1, y: 0, duration: 0.9, ease: EXPO, scrollTrigger: { trigger: '#promoGrid', start: 'top 85%', once: true } });
+      }
       const media = $('.promo-media', card);
       const img = $('img', media);
       if (img) gsap.fromTo(img, { scale: 1.28 }, { scale: 1, duration: 1.7, ease: EXPO, scrollTrigger: { trigger: card, start: 'top 86%', once: true } });

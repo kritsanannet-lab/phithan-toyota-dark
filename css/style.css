@@ -636,7 +636,20 @@ h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 700; line-height: 1
   .service-card.featured .service-media { flex: none; aspect-ratio: 16/10; }
   .service-card.featured .service-body { padding: 1.4rem; }
   .car-grid { grid-template-columns: 1fr 1fr; }
-  .promo-grid { grid-template-columns: 1fr; }
+  /* Promotions become a swipeable slider showing ~1.2 cards (next peeks) */
+  .promo-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    margin-inline: calc(-1 * var(--pad));
+    padding-inline: var(--pad);
+    scroll-padding-inline: var(--pad);
+    scrollbar-width: none;
+  }
+  .promo-grid::-webkit-scrollbar { display: none; }
+  .promo-card { flex: 0 0 84%; scroll-snap-align: start; }
   .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .f-brand { grid-column: span 2; }
